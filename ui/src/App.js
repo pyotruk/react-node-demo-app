@@ -4,9 +4,7 @@ import NotesList from "./components/NotesList/NotesList";
 function App() {
   return (
     <div className="App">
-      <p>
-        <NotesList/>
-      </p>
+      <NotesList/>
     </div>
   );
 }
