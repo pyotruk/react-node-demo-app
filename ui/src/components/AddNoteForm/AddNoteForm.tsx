@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./AddNoteForm.css";
+import "./AddNoteForm.scss";
 
 interface AddNoteFormProps {
   postNote: (text: string) => Promise<void>;

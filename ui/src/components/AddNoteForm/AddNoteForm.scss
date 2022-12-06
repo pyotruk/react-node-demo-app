@@ -1,0 +1,16 @@
+form {
+  display: block;
+  max-width: 60vw;
+  margin: 2em auto;
+
+  input {
+    min-width: 60%;
+  }
+
+  button, input {
+    height: 1.5em;
+    font-size: 1em;
+    box-sizing: content-box;
+    margin-right: 1em;
+  }
+}
