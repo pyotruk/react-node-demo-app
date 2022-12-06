@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import "./AddNoteForm.css";
 
-export default function AddNoteForm({postNote}) {
-  const [text, setText] = useState([]);
+interface AddNoteFormProps {
+  postNote: (text: string) => Promise<void>;
+}
 
-  const handleChange = (event) => {
+export default function AddNoteForm(props: AddNoteFormProps) {
+  const [text, setText] = useState<string>("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    postNote(text);
+    props.postNote(text);
     setText("");
   }
 

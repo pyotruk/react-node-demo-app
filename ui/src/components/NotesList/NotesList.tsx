@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Note from "../Note/Note";
 import AddNoteForm from "../AddNoteForm/AddNoteForm";
+import {NoteProps} from "../../structures/NoteProps";
 
 const API_URL = "http://localhost:3033";
 
 export default function NotesList() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState<NoteProps[]>([]);
 
-  const fetchNotes = async () => {
+  const fetchNotes = async (): Promise<void> => {
     try {
-      const response = await fetch(`${API_URL}/notes`);
-      const notes = await response.json();
+      const response: Response = await fetch(`${API_URL}/notes`);
+      const notes: NoteProps[] = await response.json();
       setNotes(notes);
     } catch (err) {
       console.error(err);
@@ -21,17 +22,17 @@ export default function NotesList() {
     fetchNotes();
   }, []);
 
-  const postNote = async (text) => {
+  const postNote = async (text: string): Promise<void> => {
     try {
-      const response = await fetch(`${API_URL}/note`, {
+      const response: Response = await fetch(`${API_URL}/note`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({text})
       });
-      const note = await response.json();
-      setNotes(notes => [...notes, note]);
+      const note: NoteProps = await response.json();
+      setNotes((notes: NoteProps[]) => [...notes, note]);
     } catch (err) {
       console.error(err);
       alert("Failed to post the note.");
