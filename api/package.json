@@ -1,5 +1,5 @@
 {
-  "name": "ng-node-demo-app-api",
+  "name": "react-node-demo-app-api",
   "version": "1.0.0",
   "description": "",
   "author": "vldmr.me",
@@ -10,7 +10,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "npm run build && NODE_ENV=dev node dist/index.js",
+    "start": "npm run build && NODE_ENV=dev node dist/app/index.js",
     "build": "tsc -p .",
     "test": "NODE_ENV=dev jest",
     "lint": "npx eslint .",
