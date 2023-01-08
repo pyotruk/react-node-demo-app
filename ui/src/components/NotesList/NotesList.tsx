@@ -4,6 +4,9 @@ import AddNoteForm from "../AddNoteForm/AddNoteForm";
 import {NoteProps} from "../../structures/NoteProps";
 
 const API_URL = "http://localhost:3033";
+const HTTP_HEADERS = {
+  "Content-Type": "application/json"
+};
 
 export default function NotesList() {
   const [notes, setNotes] = useState<NoteProps[]>([]);
@@ -26,9 +29,7 @@ export default function NotesList() {
     try {
       const response: Response = await fetch(`${API_URL}/note`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: HTTP_HEADERS,
         body: JSON.stringify({text})
       });
       const note: NoteProps = await response.json();
@@ -39,11 +40,25 @@ export default function NotesList() {
     }
   }
 
+  const deleteNote = async (id: number): Promise<void> => {
+    try {
+      await fetch(`${API_URL}/note`, {
+        method: "DELETE",
+        headers: HTTP_HEADERS,
+        body: JSON.stringify({id})
+      });
+      setNotes((notes: NoteProps[]) => notes.filter((note: NoteProps) => note.id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete the note.");
+    }
+  }
+
   return (
       <div className="NotesList">
         <AddNoteForm postNote={postNote}/>
         {notes && notes.length > 0 && notes.map((note, key) => {
-          return <Note key={key} note={note}/>
+          return <Note key={key} note={note} deleteNote={deleteNote}/>
         })}
       </div>
   );

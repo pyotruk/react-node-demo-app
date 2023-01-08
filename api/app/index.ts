@@ -5,6 +5,6 @@ import log4js from "log4js";
 dotenv.config();
 const log = log4js.getLogger("app");
 
-server.listen(process.env.NODE_PORT || 3000, () => {
+server.listen(process.env.NODE_PORT || 3033, () => {
     log.info("Server is listening on address:", server.address());
 });

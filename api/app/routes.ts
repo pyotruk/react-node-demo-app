@@ -26,5 +26,15 @@ export default {
                 return res.status(500).json(err);
             }
         });
+
+        app.delete("/note", async (req, res) => {
+            const id = req.body?.id;
+            try {
+                return res.json(await Note.destroy({where: {id}}));
+            } catch (err) {
+                log.error(`Failed to delete a note with id = ${id}.`, err);
+                return res.status(500).json(err);
+            }
+        });
     },
 };

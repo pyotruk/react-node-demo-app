@@ -1,0 +1,12 @@
+.Note {
+  i {
+    cursor: pointer;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: 16px 24px;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIxMDI0IiB3aWR0aD0iNjQwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik02NDAgMzIwTDUxMiAxOTIgMzIwIDM4NCAxMjggMTkyIDAgMzIwbDE5MiAxOTJMMCA3MDRsMTI4IDEyOCAxOTItMTkyIDE5MiAxOTIgMTI4LTEyOEw0NDggNTEyIDY0MCAzMjB6Ii8+PC9zdmc+");
+    background-position: center;
+    margin-left: 1em;
+  }
+}
