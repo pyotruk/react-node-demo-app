@@ -40,6 +40,19 @@ export default function NotesList() {
     }
   }
 
+  const updateNote = async (id: number, text: string): Promise<void> => {
+    try {
+      await fetch(`${API_URL}/note`, {
+        method: "PATCH",
+        headers: HTTP_HEADERS,
+        body: JSON.stringify({id, text})
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update the note.");
+    }
+  }
+
   const deleteNote = async (id: number): Promise<void> => {
     try {
       await fetch(`${API_URL}/note`, {
@@ -58,7 +71,12 @@ export default function NotesList() {
       <div className="NotesList">
         <AddNoteForm postNote={postNote}/>
         {notes && notes.length > 0 && notes.map((note, key) => {
-          return <Note key={key} note={note} deleteNote={deleteNote}/>
+          return <Note
+            key={key}
+            note={note}
+            updateNote={updateNote}
+            deleteNote={deleteNote}
+          />
         })}
       </div>
   );

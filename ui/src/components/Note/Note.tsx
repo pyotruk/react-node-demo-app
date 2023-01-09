@@ -1,11 +1,34 @@
 import "./Note.scss";
 import {NoteProps} from "../../structures/NoteProps";
-import React from "react";
+import React, {useState} from "react";
 
 export default function Note(props: {
   note: NoteProps,
+  updateNote: (id: number, text: string) => Promise<void>,
   deleteNote: (id: number) => Promise<void>,
 }) {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const toggleIsEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const [text, setText] = useState<string>(props.note.text);
+
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+  };
+
+  const handleUpdate = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await props.updateNote(props.note.id, props.note.text);
+      setIsEditing(false);
+    } catch (e) {
+      setText(props.note.text);
+    }
+  }
+
   const handleDelete = (event: React.FormEvent) => {
     event.preventDefault();
     props.deleteNote(props.note.id);
@@ -14,8 +37,24 @@ export default function Note(props: {
   return (
     <p className="Note">
       <b>#{ props.note.id }</b>&nbsp;
-      <span>{ props.note.text }</span>
-      <i onClick={handleDelete}></i>
+      {!isEditing &&
+        <span>
+          <span>{ text }</span>
+          <i className="fa fa-pencil" onClick={toggleIsEditing}></i>
+        </span>
+      }
+      {isEditing &&
+        <span>
+          <input
+            name="text"
+            value={ text }
+            onChange={handleTextChange}
+            required
+          />
+          <i className="fa fa-check" onClick={handleUpdate}></i>
+        </span>
+      }
+      <i className="fa fa-times" onClick={handleDelete}></i>
     </p>
   );
 }

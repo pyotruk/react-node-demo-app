@@ -27,10 +27,20 @@ export default {
             }
         });
 
+        app.patch("/note", async (req, res) => {
+            const id = req.body?.id;
+            try {
+                return res.json(await Note.upsert({id, text: req.body.text}));
+            } catch (err) {
+                log.error(`Failed to patch a note with id = ${id}.`, err);
+                return res.status(500).json(err);
+            }
+        });
+
         app.delete("/note", async (req, res) => {
             const id = req.body?.id;
             try {
-                return res.json(await Note.destroy({where: {id}}));
+                return res.json(await Note.destroy({where: {id: req.body.id}}));
             } catch (err) {
                 log.error(`Failed to delete a note with id = ${id}.`, err);
                 return res.status(500).json(err);
