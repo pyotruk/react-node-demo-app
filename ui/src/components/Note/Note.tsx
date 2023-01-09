@@ -22,7 +22,7 @@ export default function Note(props: {
   const handleUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await props.updateNote(props.note.id, props.note.text);
+      await props.updateNote(props.note.id, text);
       setIsEditing(false);
     } catch (e) {
       setText(props.note.text);
