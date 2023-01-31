@@ -19,12 +19,13 @@ export async function postNote(text: string): Promise<Note> {
   return await response.json();
 }
 
-export async function updateNote(id: number, text: string): Promise<void> {
-  await fetch(`${API_URL}/note`, {
+export async function updateNote(id: number, text: string): Promise<Note> {
+  const response: Response = await fetch(`${API_URL}/note`, {
     method: "PATCH",
     headers: HTTP_HEADERS,
     body: JSON.stringify({id, text})
   });
+  return await response.json();
 }
 
 export async function deleteNote(id: number): Promise<void> {
