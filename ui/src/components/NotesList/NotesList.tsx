@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Note from "../Note/Note";
 import AddNoteForm from "../AddNoteForm/AddNoteForm";
-import {NoteProps} from "../../structures/NoteProps";
+import {fetchNotesAsync, selectNotes} from "../../redux/notesReducer";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 
 const API_URL = "http://localhost:3033";
 const HTTP_HEADERS = {
@@ -9,36 +10,40 @@ const HTTP_HEADERS = {
 };
 
 export default function NotesList() {
-  const [notes, setNotes] = useState<NoteProps[]>([]);
+  const notes = useAppSelector(selectNotes);
+  const dispatch = useAppDispatch();
 
-  const fetchNotes = async (): Promise<void> => {
-    try {
-      const response: Response = await fetch(`${API_URL}/notes`);
-      const notes: NoteProps[] = await response.json();
-      setNotes(notes);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+
+  // const [notes, setNotes] = useState<NoteProps[]>([]);
+  //
+  // const fetchNotes = async (): Promise<void> => {
+  //   try {
+  //     const response: Response = await fetch(`${API_URL}/notes`);
+  //     const notes: NoteProps[] = await response.json();
+  //     setNotes(notes);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 
   useEffect(() => {
-    fetchNotes();
+    dispatch(fetchNotesAsync());
   }, []);
 
-  const postNote = async (text: string): Promise<void> => {
-    try {
-      const response: Response = await fetch(`${API_URL}/note`, {
-        method: "POST",
-        headers: HTTP_HEADERS,
-        body: JSON.stringify({text})
-      });
-      const note: NoteProps = await response.json();
-      setNotes((notes: NoteProps[]) => [...notes, note]);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to post the note.");
-    }
-  }
+  // const postNote = async (text: string): Promise<void> => {
+  //   try {
+  //     const response: Response = await fetch(`${API_URL}/note`, {
+  //       method: "POST",
+  //       headers: HTTP_HEADERS,
+  //       body: JSON.stringify({text})
+  //     });
+  //     const note: NoteProps = await response.json();
+  //     // setNotes((notes: NoteProps[]) => [...notes, note]);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Failed to post the note.");
+  //   }
+  // }
 
   const updateNote = async (id: number, text: string): Promise<void> => {
     try {
@@ -60,7 +65,7 @@ export default function NotesList() {
         headers: HTTP_HEADERS,
         body: JSON.stringify({id})
       });
-      setNotes((notes: NoteProps[]) => notes.filter((note: NoteProps) => note.id !== id));
+      // setNotes((notes: NoteProps[]) => notes.filter((note: NoteProps) => note.id !== id));
     } catch (err) {
       console.error(err);
       alert("Failed to delete the note.");
@@ -69,8 +74,8 @@ export default function NotesList() {
 
   return (
       <div className="NotesList">
-        <AddNoteForm postNote={postNote}/>
-        {notes && notes.length > 0 && notes.map((note, key) => {
+        <AddNoteForm/>
+        {notes.notes && notes.notes.length > 0 && notes.notes.map((note, key) => {
           return <Note
             key={key}
             note={note}

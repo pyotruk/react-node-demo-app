@@ -1,5 +1,5 @@
 import "./Note.scss";
-import {NoteProps} from "../../structures/NoteProps";
+import {Note as NoteProps} from "../../structures/NoteProps";
 import React, {useState} from "react";
 
 export default function Note(props: {
