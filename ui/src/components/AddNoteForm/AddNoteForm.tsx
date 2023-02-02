@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import "./AddNoteForm.scss";
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {postNoteAsync, selectNotes} from "../../redux/notesReducer";
+import {useAppDispatch} from "../../redux/hooks";
+import {postNote} from "../../redux/notesSlice";
 
 export default function AddNoteForm() {
-  // const notes = useAppSelector(selectNotes);
   const dispatch = useAppDispatch();
 
   const [text, setText] = useState<string>("");
@@ -15,7 +14,7 @@ export default function AddNoteForm() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    dispatch(postNoteAsync(text));
+    dispatch(postNote(text));
     setText("");
   }
 

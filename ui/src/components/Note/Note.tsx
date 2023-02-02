@@ -2,7 +2,7 @@ import "./Note.scss";
 import {Note as NoteProps} from "../../structures/NoteProps";
 import React, {useState} from "react";
 import {useAppDispatch} from "../../redux/hooks";
-import {deleteNoteAsync, updateNoteAsync} from "../../redux/notesReducer";
+import {deleteNote, updateNote} from "../../redux/notesSlice";
 
 export default function Note(props: {
   note: NoteProps,
@@ -24,7 +24,7 @@ export default function Note(props: {
   const handleUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await dispatch(updateNoteAsync({id: props.note.id, text}));
+      await dispatch(updateNote({id: props.note.id, text}));
       setIsEditing(false);
     } catch (e) {
       setText(props.note.text);
@@ -33,7 +33,7 @@ export default function Note(props: {
 
   const handleDelete = (event: React.FormEvent) => {
     event.preventDefault();
-    dispatch(deleteNoteAsync(props.note.id));
+    dispatch(deleteNote(props.note.id));
   }
 
   return (

@@ -5,33 +5,37 @@ const HTTP_HEADERS = {
   "Content-Type": "application/json"
 };
 
-export async function fetchNotes(): Promise<Note[]> {
-  const response: Response = await fetch(`${API_URL}/notes`);
-  return await response.json();
+const NotesApi = {
+  fetch: async (): Promise<Note[]> => {
+    const response: Response = await fetch(`${API_URL}/notes`);
+    return await response.json();
+  },
+
+  post: async (text: string): Promise<Note> => {
+    const response: Response = await fetch(`${API_URL}/note`, {
+      method: "POST",
+      headers: HTTP_HEADERS,
+      body: JSON.stringify({text})
+    });
+    return await response.json();
+  },
+
+  update: async (id: number, text: string): Promise<Note> => {
+    const response: Response = await fetch(`${API_URL}/note`, {
+      method: "PATCH",
+      headers: HTTP_HEADERS,
+      body: JSON.stringify({id, text})
+    });
+    return await response.json();
+  },
+
+  delete: async (id: number): Promise<void> => {
+    await fetch(`${API_URL}/note`, {
+      method: "DELETE",
+      headers: HTTP_HEADERS,
+      body: JSON.stringify({id})
+    });
+  }
 }
 
-export async function postNote(text: string): Promise<Note> {
-  const response: Response = await fetch(`${API_URL}/note`, {
-    method: "POST",
-    headers: HTTP_HEADERS,
-    body: JSON.stringify({text})
-  });
-  return await response.json();
-}
-
-export async function updateNote(id: number, text: string): Promise<Note> {
-  const response: Response = await fetch(`${API_URL}/note`, {
-    method: "PATCH",
-    headers: HTTP_HEADERS,
-    body: JSON.stringify({id, text})
-  });
-  return await response.json();
-}
-
-export async function deleteNote(id: number): Promise<void> {
-  await fetch(`${API_URL}/note`, {
-    method: "DELETE",
-    headers: HTTP_HEADERS,
-    body: JSON.stringify({id})
-  });
-}
+export default NotesApi;
