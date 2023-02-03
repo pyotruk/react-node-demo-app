@@ -1,11 +1,13 @@
 import "./Note.scss";
-import {Note as NoteProps} from "../../structures/NoteProps";
+import {Note as NoteProps, NoteId} from "../../structures/NoteProps";
 import React, {useState} from "react";
 import {useAppDispatch} from "../../redux/hooks";
 import {deleteNote, updateNote} from "../../redux/notesSlice";
 
 export default function Note(props: {
   note: NoteProps,
+  isUpdating: false | NoteId,
+  isDeleting: false | NoteId,
 }) {
   const dispatch = useAppDispatch();
 
@@ -21,14 +23,11 @@ export default function Note(props: {
     setText(event.target.value);
   };
 
-  const handleUpdate = async (event: React.FormEvent) => {
+  const handleUpdate = (event: React.FormEvent) => {
     event.preventDefault();
-    try {
-      await dispatch(updateNote({id: props.note.id, text}));
+    dispatch(updateNote({id: props.note.id, text})).then(() => {
       setIsEditing(false);
-    } catch (e) {
-      setText(props.note.text);
-    }
+    });
   }
 
   const handleDelete = (event: React.FormEvent) => {
@@ -53,10 +52,12 @@ export default function Note(props: {
             onChange={handleTextChange}
             required
           />
-          <i className="fa fa-check" onClick={handleUpdate}></i>
+          {props.isUpdating !== props.note.id && <i className="fa fa-check" onClick={handleUpdate}></i>}
+          {props.isUpdating === props.note.id && <i className="fa fa-spinner"></i>}
         </span>
       }
-      <i className="fa fa-times" onClick={handleDelete}></i>
+      {props.isDeleting !== props.note.id && <i className="fa fa-times" onClick={handleDelete}></i>}
+      {props.isDeleting === props.note.id && <i className="fa fa-spinner"></i>}
     </p>
   );
 }

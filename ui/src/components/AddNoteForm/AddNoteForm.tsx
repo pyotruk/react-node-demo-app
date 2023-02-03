@@ -3,7 +3,9 @@ import "./AddNoteForm.scss";
 import {useAppDispatch} from "../../redux/hooks";
 import {postNote} from "../../redux/notesSlice";
 
-export default function AddNoteForm() {
+export default function AddNoteForm(props: {
+  isPosting: boolean,
+}) {
   const dispatch = useAppDispatch();
 
   const [text, setText] = useState<string>("");
@@ -27,7 +29,10 @@ export default function AddNoteForm() {
         placeholder="type your note"
         required
       />
-      <button type="submit">Add note</button>
+      <button type="submit">
+        {!props.isPosting && <span>Add note</span>}
+        {props.isPosting && <i className="fa fa-spinner"></i>}
+      </button>
     </form>
   );
 }

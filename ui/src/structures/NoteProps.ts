@@ -1,4 +1,6 @@
+export type NoteId = number;
+
 export interface Note {
-  id: number;
+  id: NoteId;
   text: string;
 }
